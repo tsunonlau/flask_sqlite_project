@@ -1,0 +1,17 @@
+# Flask framework for web server
+Flask==3.0.0
+
+# Werkzeug WSGI utility library (Flask dependency)
+Werkzeug==3.0.1
+
+# Jinja2 templating engine (Flask dependency)
+Jinja2==3.1.2
+
+# Click CLI framework (Flask dependency)
+click==8.1.7
+
+# MarkupSafe for safe string handling
+MarkupSafe==2.1.3
+
+# itsdangerous for secure session cookies
+itsdangerous==2.1.2

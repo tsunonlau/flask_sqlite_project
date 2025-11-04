@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flask SQLite Demo</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Flask SQLite User Management</h1>
+            <p>A simple demonstration of Flask with SQLite database</p>
+        </header>
+
+        <!-- Add User Form -->
+        <section class="form-section">
+            <h2>Add New User</h2>
+            <form id="addUserForm">
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Add User</button>
+            </form>
+            <div id="message" class="message"></div>
+        </section>
+
+        <!-- Users List -->
+        <section class="users-section">
+            <h2>All Users</h2>
+            <button id="refreshBtn" class="btn btn-secondary">Refresh List</button>
+            <div id="usersList" class="users-list">
+                <!-- Users will be loaded here dynamically -->
+            </div>
+        </section>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
