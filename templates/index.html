@@ -3,43 +3,152 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flask SQLite Demo</title>
+    <title>Route Venture - Outdoor Adventure Hub</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Flask SQLite User Management</h1>
-            <p>A simple demonstration of Flask with SQLite database</p>
-        </header>
-
-        <!-- Add User Form -->
-        <section class="form-section">
-            <h2>Add New User</h2>
-            <form id="addUserForm">
-                <div class="form-group">
-                    <label for="name">Name:</label>
-                    <input type="text" id="name" name="name" required>
-                </div>
-                <div class="form-group">
-                    <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" required>
-                </div>
-                <button type="submit" class="btn btn-primary">Add User</button>
-            </form>
-            <div id="message" class="message"></div>
-        </section>
-
-        <!-- Users List -->
-        <section class="users-section">
-            <h2>All Users</h2>
-            <button id="refreshBtn" class="btn btn-secondary">Refresh List</button>
-            <div id="usersList" class="users-list">
-                <!-- Users will be loaded here dynamically -->
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-success sticky-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="/">
+                <i class="bi bi-compass me-2 fs-3"></i>
+                <span class="fw-bold fs-4">Route Venture</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/">
+                            <i class="bi bi-house-door me-1"></i>Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/enroll">
+                            <i class="bi bi-calendar-check me-1"></i>Browse Events
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/create">
+                            <i class="bi bi-plus-circle me-1"></i>Create Event
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin">
+                            <i class="bi bi-gear me-1"></i>Admin
+                        </a>
+                    </li>
+                </ul>
             </div>
-        </section>
-    </div>
+        </div>
+    </nav>
 
-    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <!-- Hero Section -->
+    <section class="hero-section text-white text-center d-flex align-items-center" style="background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1551632811-561732d1e306?w=1200') center/cover; min-height: 60vh;">
+        <div class="container">
+            <h1 class="display-3 fw-bold mb-4">Welcome to Route Venture</h1>
+            <p class="lead fs-4 mb-4">Your Gateway to Outdoor Adventures</p>
+            <div class="d-flex justify-content-center gap-3">
+                <a href="/enroll" class="btn btn-success btn-lg">
+                    <i class="bi bi-search me-2"></i>Explore Events
+                </a>
+                <a href="/create" class="btn btn-outline-light btn-lg">
+                    <i class="bi bi-plus-circle me-2"></i>Create Event
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="text-center mb-5">
+                        <h2 class="display-5 fw-bold text-success mb-4">About Route Venture</h2>
+                        <div class="about-text text-start bg-white p-5 rounded shadow-sm">
+                            <p class="lead mb-4">
+                                We are a passionate team of outdoor enthusiasts and tech aficionados 
+                                dedicated to bringing people together to explore the great outdoors. Our 
+                                name reflects this fusion: <strong>"Route"</strong> signifies the paths we explore, while 
+                                <strong>"Venture"</strong> embodies the thrill of adventure and discovering our nature.
+                            </p>
+                            <p class="lead">
+                                Our website, Route Venture, serves as a hub for outdoor lovers to connect, 
+                                plan, and join various events. Whether it's a hiking trip in the mountains, a 
+                                camping weekend by the beach, or a community clean-up in a local park, 
+                                our platform provides users with the tools they need to organize and 
+                                participate in outdoor activities that align with their interests.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-5 display-6 fw-bold">What We Offer</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card h-100 border-0 shadow-sm text-center p-4">
+                        <div class="card-body">
+                            <i class="bi bi-mountain text-success display-3 mb-3"></i>
+                            <h5 class="card-title fw-bold">Hiking Adventures</h5>
+                            <p class="card-text">Discover scenic trails and mountain paths with fellow hiking enthusiasts.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 border-0 shadow-sm text-center p-4">
+                        <div class="card-body">
+                            <i class="bi bi-trees text-success display-3 mb-3"></i>
+                            <h5 class="card-title fw-bold">Camping Trips</h5>
+                            <p class="card-text">Experience nature with organized camping weekends and outdoor stays.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 border-0 shadow-sm text-center p-4">
+                        <div class="card-body">
+                            <i class="bi bi-recycle text-success display-3 mb-3"></i>
+                            <h5 class="card-title fw-bold">Community Cleanups</h5>
+                            <p class="card-text">Join local environmental initiatives and help preserve our parks.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="py-5 bg-success text-white">
+        <div class="container text-center">
+            <h2 class="display-6 fw-bold mb-4">Ready to Start Your Adventure?</h2>
+            <p class="lead mb-4">Join our community and discover amazing outdoor experiences</p>
+            <a href="/enroll" class="btn btn-light btn-lg">
+                <i class="bi bi-arrow-right-circle me-2"></i>Get Started
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4">
+        <div class="container text-center">
+            <p class="mb-2"><i class="bi bi-compass text-success"></i> Route Venture &copy; 2025</p>
+            <p class="text-muted">Connecting outdoor enthusiasts, one adventure at a time</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
