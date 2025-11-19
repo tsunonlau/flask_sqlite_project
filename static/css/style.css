@@ -1124,3 +1124,34 @@ a:focus {
         display: none;
     }
 }
+
+/* Contact Page Styles */
+.contact-page {
+    min-height: calc(100vh - 200px);
+}
+
+.card {
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+}
+
+.accordion-button:not(.collapsed) {
+    background-color: #e7f3ff;
+    color: #0d6efd;
+}
+
+/* Admin Dashboard Button */
+.admin-create-btn {
+    padding: 0.75rem 1.5rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.admin-create-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}

@@ -1,6 +1,6 @@
 # app.py - Main Flask application for Route Venture
 
-from flask import Flask, render_template, request, jsonify, redirect, url_for
+from flask import Flask, render_template, request, jsonify, redirect, url_for, send_file
 import database as db
 from config import config
 
@@ -10,6 +10,68 @@ app.config.from_object(config['development'])
 # Initialize database on startup
 with app.app_context():
     db.init_db()
+
+# ==================== QR CODE ROUTES =====================
+import qrcode
+import io
+import base64
+
+@app.route('/api/event/<int:event_id>/qrcode')
+def generate_event_qrcode(event_id):
+    """Generate QR code image for specific event"""
+    try:
+        # Create the event URL (adjust based on your routing)
+        # For localhost testing
+        event_url = f"http://localhost:5000/enroll?event_id={event_id}"
+        
+        # For production, use:
+        # event_url = f"{request.url_root}enroll?event_id={event_id}"
+        
+        # Generate QR code
+        qr = qrcode.QRCode(
+            version=1,
+            error_correction=qrcode.constants.ERROR_CORRECT_L,
+            box_size=10,
+            border=4,
+        )
+        qr.add_data(event_url)
+        qr.make(fit=True)
+        
+        # Create image
+        img = qr.make_image(fill_color="black", back_color="white")
+        
+        # Save to BytesIO object
+        img_io = io.BytesIO()
+        img.save(img_io, 'PNG')
+        img_io.seek(0)
+        
+        return send_file(img_io, mimetype='image/png')
+    
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/event/<int:event_id>/qrcode-base64')
+def get_qrcode_base64(event_id):
+    """Return QR code as base64 for embedding in HTML (alternative method)"""
+    try:
+        import base64
+        
+        event_url = f"http://localhost:5000/enroll?event_id={event_id}"
+        
+        qr = qrcode.QRCode(version=1, box_size=10, border=4)
+        qr.add_data(event_url)
+        qr.make(fit=True)
+        
+        img = qr.make_image(fill_color="black", back_color="white")
+        
+        buffered = io.BytesIO()
+        img.save(buffered, format="PNG")
+        img_str = base64.b64encode(buffered.getvalue()).decode()
+        
+        return jsonify({'qrcode': f'data:image/png;base64,{img_str}'})
+    
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 # ==================== WEB PAGE ROUTES ====================
 
@@ -29,8 +91,9 @@ def enroll_page():
     return render_template('enroll.html')
 
 @app.route('/create')
-def create_page():
-    """Event creation page"""
+def create():
+    """Create event page - now accessed via admin dashboard"""
+    # Optional: Add authentication check here in production
     return render_template('create.html')
 
 @app.route('/admin')
@@ -252,6 +315,11 @@ def get_stats():
         return jsonify(stats), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+@app.route('/contact')
+def contact():
+    """Contact Us page route"""
+    return render_template('contact.html')
 
 # ==================== ERROR HANDLERS ====================
 

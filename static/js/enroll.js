@@ -124,33 +124,47 @@ function createEventCard(event) {
         : `${event.enrolled_count} enrolled`;
     
     const isFull = event.max_participants && event.enrolled_count >= event.max_participants;
-    
-    return `
-        <div class="col-md-6 col-lg-4" data-event-type="${event.event_type}">
-            <div class="card h-100 shadow-sm event-card">
+    const eventCard = `
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100 shadow-sm">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-start mb-2">
-                        <span class="badge bg-success"><i class="bi ${icon} me-1"></i>${event.event_type}</span>
-                        ${isFull ? '<span class="badge bg-danger">Full</span>' : '<span class="badge bg-info">Available</span>'}
+                        <h5 class="card-title">${event.title}</h5>
+                        <span class="badge bg-primary">${event.event_type}</span>
                     </div>
-                    <h5 class="card-title fw-bold">${event.title}</h5>
-                    <p class="card-text text-muted small">${event.description.substring(0, 100)}${event.description.length > 100 ? '...' : ''}</p>
-                    <div class="event-details small">
-                        <p class="mb-1"><i class="bi bi-calendar3 text-success me-2"></i>${formattedDate}</p>
-                        <p class="mb-1"><i class="bi bi-clock text-success me-2"></i>${event.event_time}</p>
-                        <p class="mb-1"><i class="bi bi-geo-alt text-success me-2"></i>${event.location}</p>
-                        <p class="mb-2"><i class="bi bi-people text-success me-2"></i>${spotsText}</p>
+                    <p class="card-text text-muted">${event.description}</p>
+                    <div class="event-details mt-3">
+                        <p class="mb-1"><i class="bi bi-geo-alt"></i> ${event.location}</p>
+                        <p class="mb-1"><i class="bi bi-calendar"></i> ${event.event_date}</p>
+                        <p class="mb-1"><i class="bi bi-clock"></i> ${event.event_time}</p>
+                    </div>
+                    
+                    <!-- QR Code Thumbnail (NEW) -->
+                    <div class="qr-code-thumbnail mt-3 text-center">
+                        <img src="/api/event/${event.id}/qrcode" 
+                            alt="QR Code" 
+                            class="img-thumbnail" 
+                            style="width: 80px; height: 80px; cursor: pointer;"
+                            onclick="showQRCodeModal(${event.id}, '${event.title.replace(/'/g, "\\'")}')"
+                            title="Click to view full QR code">
+                        <p class="small text-muted mb-0">Scan to share</p>
                     </div>
                 </div>
-                <div class="card-footer bg-white border-top-0">
-                    <button class="btn btn-success w-100" onclick="enrollInEvent(${event.id}, '${event.title}')" ${isFull || !currentUserId ? 'disabled' : ''}>
-                        <i class="bi bi-check-circle me-2"></i>${isFull ? 'Event Full' : 'Enroll Now'}
-                    </button>
-                    ${!currentUserId ? '<small class="text-muted d-block mt-2 text-center">Register first to enroll</small>' : ''}
+                <div class="card-footer bg-transparent">
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-primary btn-sm" onclick="enrollEvent(${event.id})">
+                            <i class="bi bi-person-plus"></i> Enroll Now
+                        </button>
+                        <button class="btn btn-outline-secondary btn-sm" onclick="showQRCodeModal(${event.id}, '${event.title.replace(/'/g, "\\'")}')">
+                            <i class="bi bi-qr-code"></i> View QR Code
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
     `;
+
+    return eventCard;
 }
 
 // Enroll in event
@@ -212,4 +226,26 @@ function filterEvents() {
     });
     
     displayEvents(filtered);
+}
+
+/**
+ * Show QR Code Modal
+ * Displays the QR code for a specific event in a modal
+ */
+function showQRCodeModal(eventId, eventTitle) {
+    // Set the QR code image source
+    const qrImage = document.getElementById('qrCodeImage');
+    qrImage.src = `/api/event/${eventId}/qrcode`;
+    
+    // Set the event title
+    document.getElementById('qrEventTitle').textContent = eventTitle;
+    
+    // Set download link
+    const downloadLink = document.getElementById('qrDownloadLink');
+    downloadLink.href = `/api/event/${eventId}/qrcode`;
+    downloadLink.download = `event-${eventId}-qrcode.png`;
+    
+    // Show the modal
+    const modal = new bootstrap.Modal(document.getElementById('qrCodeModal'));
+    modal.show();
 }

@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-    <!-- Navigation Bar -->
+    <!-- Navigation Bar
     <nav class="navbar navbar-expand-lg navbar-dark bg-success sticky-top">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="/">
@@ -25,6 +25,41 @@
                     <li class="nav-item"><a class="nav-link" href="/enroll"><i class="bi bi-calendar-check me-1"></i>Browse Events</a></li>
                     <li class="nav-item"><a class="nav-link" href="/create"><i class="bi bi-plus-circle me-1"></i>Create Event</a></li>
                     <li class="nav-item"><a class="nav-link active" href="/admin"><i class="bi bi-gear me-1"></i>Admin</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav> -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="bi bi-compass me-2"></i>Route Venture
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">
+                            <i class="bi bi-house-door me-1"></i>Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/enroll">
+                            <i class="bi bi-calendar-event me-1"></i>Browse Events
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin">
+                            <i class="bi bi-gear me-1"></i>Admin
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/contact">
+                            <i class="bi bi-envelope me-1"></i>Contact Us
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
